@@ -18,7 +18,7 @@ export class App {
   }
 
   private routes(): void {
-    this.app.use("/api", routes);
+    this.app.use("/", routes);
   }
 
   public listen(): void {

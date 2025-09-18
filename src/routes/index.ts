@@ -1,9 +1,10 @@
-import { Router } from "express";
+import planRoutes from '@/modules/pdi/http/plan.routes';
+import usersRoutes from '@/modules/users/http/user.routes';
+import { Router } from 'express';
 
-const routes = Router();
+const router = Router();
 
-routes.get("/", (req, res) => {
-  res.send("API OrienzoIA rodando");
-});
+router.use('/plans', planRoutes);
+router.use('/users', usersRoutes);
 
-export default routes;
+export default router;

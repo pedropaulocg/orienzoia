@@ -1,0 +1,43 @@
+## CRIAR USUARIO
+
+curl --location 'http://localhost:3000/users' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "name": "Alice 275",
+  "email": "alice709@test.com",
+  "password": "secret123",
+  "role": "USER"
+}'
+
+
+## LISTAR USUARIOS
+curl --location 'http://localhost:3000/users'
+
+## CRIAR PLANO
+curl --location 'http://localhost:3000/plans/4e71ba53-6a28-47c5-8475-3a651d5d48d0' \
+--header 'Content-Type: application/json' \
+--data '{
+  "userId": "01f5b681-7535-497a-a9e0-9fdf141b4281",
+  "title": "Plano de Desenvolvimento - 839",
+  "description": "Foco em backend e arquitetura",
+  "periodFrom": "2025-09-18T12:00:00.000Z",
+  "periodTo": "2025-10-18T12:00:00.000Z",
+  "goals": [
+    {
+      "title": "Aprender NestJS",
+      "specific": "Estudar NestJS e publicar 1 API",
+      "measurable": "1 API publicada + 10 endpoints",
+      "achievable": "2h/dia por 4 semanas",
+      "relevant": "Aderente ao roadmap backend",
+      "timeBound": "2025-10-18T12:00:00.000Z",
+      "actions": [
+        { "description": "Curso oficial NestJS", "dueDate": "2025-09-18T12:00:00.000Z" },
+        { "description": "Criar boilerplate", "dueDate": "2025-09-18T12:00:00.000Z" }
+      ]
+    }
+  ]
+}
+'
+
+## LISTAR PLANO
+curl --location 'http://localhost:3000/plans/4e71ba53-6a28-47c5-8475-3a651d5d48d0'

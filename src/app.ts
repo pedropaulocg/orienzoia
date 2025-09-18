@@ -1,9 +1,29 @@
-import express from "express";
+import express, { type Application } from "express";
 import routes from "./routes";
 
-const app = express();
+export class App {
+  public app: Application;
+  private port: number;
 
-app.use(express.json());
-app.use(routes);
+  constructor(port: number) {
+    this.app = express();
+    this.port = port;
 
-export default app;
+    this.middlewares();
+    this.routes();
+  }
+
+  private middlewares(): void {
+    this.app.use(express.json());
+  }
+
+  private routes(): void {
+    this.app.use("/api", routes);
+  }
+
+  public listen(): void {
+    this.app.listen(this.port, () => {
+      console.log(`Server running at ${this.port}`);
+    });
+  }
+}

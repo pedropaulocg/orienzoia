@@ -20,14 +20,22 @@ model User {
   role      UserRole  @default(USER)
   password  String    @db.VarChar(255)
   isActive  Boolean   @default(true)
+  managerId String? // Para hierarquia manager/subordinado
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  // Relacionamentos PDI (abaixo)
-  plans      Plan[]
-  ActionItem ActionItem[]
-  Feedback   Feedback[]
+  // Relacionamentos de hierarquia
+  manager      User?  @relation("ManagerSubordinate", fields: [managerId], references: [id])
+  subordinates User[] @relation("ManagerSubordinate")
+
+  // Relacionamentos PDI
+  plans        Plan[]
+  ActionItem   ActionItem[]
+  Feedback     Feedback[]
+  RefreshToken RefreshToken[]
+
+  @@index([managerId])
 }
 
 model Plan {
@@ -116,4 +124,17 @@ model Feedback {
 
   @@index([planId])
   @@index([authorId])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
 }

@@ -1,15 +1,25 @@
-import { sign, verify, SignOptions } from 'jsonwebtoken';
-import type { StringValue } from 'ms';
+import type { TokenPayload } from '@/modules/auth/types';
+import { randomBytes } from 'crypto';
+import { sign, SignOptions, verify } from 'jsonwebtoken';
 
 export class TokenService {
   constructor(private readonly secret: string) {}
 
-  generate(payload: object, expiresIn: number | StringValue = '1h'): string {
-    const options: SignOptions = { expiresIn };
+  generateAccessToken(userId: string, role: string): string {
+    const payload: TokenPayload = {
+      sub: userId,
+      role,
+    };
+
+    const options: SignOptions = { expiresIn: '15m' };
     return sign(payload, this.secret, options);
   }
 
-  verify<T = any>(token: string): T {
-    return verify(token, this.secret) as T;
+  generateRefreshToken(): string {
+    return randomBytes(32).toString('hex');
+  }
+
+  verifyAccessToken(token: string): TokenPayload {
+    return verify(token, this.secret) as TokenPayload;
   }
 }

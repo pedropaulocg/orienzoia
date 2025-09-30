@@ -7,6 +7,9 @@
   - Added the required column `updatedAt` to the `User` table without a default value. This is not possible if the table is not empty.
 
 */
+-- Enable citext extension
+CREATE EXTENSION IF NOT EXISTS citext;
+
 -- CreateEnum
 CREATE TYPE "public"."UserRole" AS ENUM ('USER', 'MANAGER', 'ADMIN');
 
